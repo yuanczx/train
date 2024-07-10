@@ -40,7 +40,7 @@ class SSFModel(nn.Module):
 @MODELS.register_module()
 class SSFMask2FormerHead(Mask2FormerHead):
     def __init__(self, **kwargs):
-        super().__init__(self, **kwargs)
+        super().__init__(**kwargs)
         feat_channels = kwargs["feat_channels"]
         self.ssf_scale, self.ssf_shift = init_ssf_scale_shift(feat_channels)
     def forward(self, x: List[Tensor],

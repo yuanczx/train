@@ -11,3 +11,4 @@ from .reins_sam_vit import ReinsSAMViT
 from .sam_vit import SAMViT
 from .reins_clip import ReinsCLIPVisionTransformer
 from .vpt_dinov2 import VPTDinoVisionTransformer
+from .ssf_dinov2 import SSFDinoVisionTransformer

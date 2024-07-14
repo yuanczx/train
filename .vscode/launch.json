@@ -6,9 +6,10 @@
     "configurations": [
         {
             "name": "Python: Current File",
-            "type": "python",
+            "type": "debugpy",
             "request": "launch",
-            "program": "${file}",
+            "program": "${workspaceFolder}/tools/train.py",
+            "args": ["${workspaceFolder}/configs/dinov2/dinov2_mask2former_512x512_bs1x4.py", "--cfg-options", "model.backbone.type='SSFDinoVisionTransformer'"],
             "console": "integratedTerminal",
             "justMyCode": false
         }

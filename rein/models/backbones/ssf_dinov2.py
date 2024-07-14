@@ -7,31 +7,11 @@ from .dino_v2 import DinoVisionTransformer
 from .utils import set_requires_grad, set_train
 
 
-def init_ssf_scale_shift(dim):
-    scale = nn.Parameter(torch.ones(dim))
-    shift = nn.Parameter(torch.zeros(dim))
-
-    nn.init.normal_(scale, mean=1, std=.02)
-    nn.init.normal_(shift, std=.02)
-
-    return scale, shift
-
-
-def ssf_ada(x, scale, shift):
-    assert scale.shape == shift.shape
-    if x.shape[-1] == scale.shape[0]:
-        return x * scale + shift
-    elif x.shape[1] == scale.shape[0]:
-        return x * scale.view(1, -1, 1, 1) + shift.view(1, -1, 1, 1)
-    else:
-        raise ValueError('the input tensor shape does not match the shape of the scale factor.')
-    
-    
 @BACKBONES.register_module()
 class SSFDinoVisionTransformer(DinoVisionTransformer):
-    def __init__(self,num_layers=24,embed_dim=1024,**kwargs):
+    def __init__(self,**kwargs):
         super().__init__(**kwargs)
-        self.ssf = SSF(num_layers,embed_dim)
+        self.ssf = SSF(layer=24,dim=kwargs['embed_dim'])
 
     def forward_features(self, x, masks=None):
         B, _, h, w = x.shape

@@ -15,5 +15,5 @@ resume = False
 
 tta_model = dict(type="SegTTAModel")
 randomness = dict(
-    seed=42,
+    seed=17,
 )

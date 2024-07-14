@@ -16,10 +16,10 @@ class SSF(nn.Module):
 
 
     def forward(self,x,layer):
-        assert self.scale.shape == self.shift.shape
-        if x.shape[-1] == self.scale.shapes[layer][0]:
+        assert self.scales.shape == self.shifts.shape
+        if x.shape[-1] == self.scales[layer].shape[0]:
             return x * self.scales[layer] + self.shifts[layer]
-        elif x.shape[1] == self.scale.shape[layer][0]:
+        elif x.shape[1] == self.scales[layer].shape[0]:
             return x * self.scales[layer].view(1, -1, 1, 1) + self.shifts[layer].view(1, -1, 1, 1)
         else:
             raise ValueError('the input tensor shape does not match the shape of the scale factor.')

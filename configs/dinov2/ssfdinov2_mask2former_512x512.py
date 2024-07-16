@@ -20,6 +20,7 @@ train_pipeline = [
 ]
 model=dict(backbone=dict(type="SSFDinoVisionTransformer"))
 train_dataloader = dict(batch_size=4, dataset=dict(pipeline=train_pipeline))
+randomness = dict(seed=17)
 
 # AdamW optimizer, no weight decay for position embedding & layer norm
 # in backbone
@@ -41,11 +42,11 @@ optim_wrapper = dict(
         norm_decay_mult=0.0)
 )
 param_scheduler = [
-    dict(type="PolyLR", eta_min=0, power=0.9, begin=0, end=40000, by_epoch=False)
+    dict(type="PolyLR", eta_min=0, power=0.9, begin=0, end=50000, by_epoch=False)
 ]
 
 # training schedule for 160k
-train_cfg = dict(type="IterBasedTrainLoop", max_iters=40000, val_interval=10000)
+train_cfg = dict(type="IterBasedTrainLoop", max_iters=50000, val_interval=10000)
 val_cfg = dict(type="ValLoop")
 test_cfg = dict(type="TestLoop")
 default_hooks = dict(

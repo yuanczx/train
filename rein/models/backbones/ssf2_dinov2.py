@@ -2,16 +2,16 @@ from mmseg.models.builder import BACKBONES, MODELS
 from torch import nn
 import torch
 
-from .ssf import SSF
+from .ssf2 import SSF2
 from .dino_v2 import DinoVisionTransformer
 from .utils import set_requires_grad, set_train
 
 
 @BACKBONES.register_module()
-class SSFDinoVisionTransformer(DinoVisionTransformer):
+class SSF2DinoVisionTransformer(DinoVisionTransformer):
     def __init__(self,**kwargs):
         super().__init__(**kwargs)
-        self.ssf = SSF(layer=1,dim=kwargs['embed_dim'])
+        self.ssf = SSF2(layer=1,dim=kwargs['embed_dim'])
 
     def forward_features(self, x, masks=None):
         B, _, h, w = x.shape

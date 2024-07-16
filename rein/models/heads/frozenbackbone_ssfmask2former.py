@@ -115,7 +115,6 @@ class FB_SSFMask2FormerHead(Mask2FormerHead):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         feat_channels = kwargs["feat_channels"]
-        self.scale, self.shift = init_ssf_scale_shift(feat_channels)
 
     def forward(self, x: List[Tensor],
                 batch_data_samples: SampleList) -> Tuple[List[Tensor]]:
@@ -163,7 +162,6 @@ class FB_SSFMask2FormerHead(Mask2FormerHead):
         # shape (num_queries, c) -> (batch_size, num_queries, c)
         query_feat = self.query_feat.weight.unsqueeze(0).repeat(
             (batch_size, 1, 1))
-        query_feat = ssf_ada(query_feat, self.scale, self.shift)
         query_embed = self.query_embed.weight.unsqueeze(0).repeat(
             (batch_size, 1, 1))
 

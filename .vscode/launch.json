@@ -9,7 +9,7 @@
             "type": "debugpy",
             "request": "launch",
             "program": "${workspaceFolder}/tools/train.py",
-            "args": ["${workspaceFolder}/configs/dinov2/dinov2_mask2former_512x512_bs1x4.py","--cfg-options","model.decode_head.type='DINOMask2FormerHead'","--work-dir","./work_dirs/debug"],
+            "args": ["${workspaceFolder}/configs/frozen_vfms/dinov2-L_mask2former.py","--work-dir","./work_dirs/debug"],
             "console": "integratedTerminal",
             "justMyCode": false
         }

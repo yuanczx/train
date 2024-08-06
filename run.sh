@@ -11,5 +11,8 @@ cd /mnt/csip-090/rein
 /opt/conda/envs/rein/bin/pip install -r requirements.txt
 /opt/conda/envs/rein/bin/pip install future tensorboard
 ln -s /mnt/csip-090/rein/work_dirs /mnt/tensorboard
-/opt/conda/envs/rein/bin/python tools/train.py configs/frozen_vfms/dinov2-L_mask2former.py --work-dir ./work_dirs/debug
+apt --fix-broken install -y
+apt install tmux -y
+tmux new -d -s train
+tmux send -t train "cd /mnt/csip-090/rein;/opt/conda/envs/rein/bin/python tools/train.py configs/frozen_vfms/dinov2-L_mask2former.py --work-dir ./work_dirs/debug" C-m
 sleep 3d

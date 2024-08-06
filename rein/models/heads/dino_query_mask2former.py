@@ -12,6 +12,9 @@ from mmseg.models.builder import MODELS
 class DINOMask2FormerHead(Mask2FormerHead):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        feat_channels = kwargs['feat_channels']
+        self.trans_norm = nn.LayerNorm(feat_channels)
+        self.trans = nn.Linear(feat_channels, feat_channels)
         self.first = True
 
 
@@ -39,20 +42,21 @@ class DINOMask2FormerHead(Mask2FormerHead):
         """
         batch_size = x[0].shape[0]
         mask_features, multi_scale_memorys = self.pixel_decoder(x)
-        # multi_scale_memorys (from low resolution to high resolution)
         
         if self.first:
             flattened_features = multi_scale_memorys[-1].flatten(2).permute(0, 2, 1)
-            
             feature_norms = torch.norm(flattened_features, dim=-1)
-            
-            _, topk_indices = torch.topk(feature_norms, k=self.num_queries, dim=1)
-            
-            topk_features = torch.gather(flattened_features, 1, topk_indices.unsqueeze(-1).expand(-1, -1, flattened_features.size(-1)))
-            
-            self.query_embed.weight.data.copy_(topk_features[0])
-            self.query_feat.weight.data.copy_(topk_features[0])
+            topk_indices = torch.topk(feature_norms, k=self.num_queries, dim=1)[1]
+            topk_features = torch.gather(flattened_features, 1, topk_indices.unsqueeze(-1).expand(-1, -1, flattened_features.size(-1)))[0]
+            self.query_embed.weight.data.copy_(topk_features)
             self.first = False
+            
+        query_feat = self.query_feat.weight.unsqueeze(0).repeat(
+            (batch_size, 1, 1))
+        query_embed = self.query_embed.weight.unsqueeze(0).repeat(
+            (batch_size, 1, 1))
+        
+        query_embed = self.trans_norm(self.trans(query_embed))
         
         decoder_inputs = []
         decoder_positional_encodings = []
@@ -72,11 +76,7 @@ class DINOMask2FormerHead(Mask2FormerHead):
                 2).permute(0, 2, 1)
             decoder_inputs.append(decoder_input)
             decoder_positional_encodings.append(decoder_positional_encoding)
-        # shape (num_queries, c) -> (batch_size, num_queries, c)
-        query_feat = self.query_feat.weight.unsqueeze(0).repeat(
-            (batch_size, 1, 1))
-        query_embed = self.query_embed.weight.unsqueeze(0).repeat(
-            (batch_size, 1, 1))
+     
 
         cls_pred_list = []
         mask_pred_list = []

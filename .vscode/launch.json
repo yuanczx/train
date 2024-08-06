@@ -5,11 +5,32 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python: Current File",
+            "name": "Debug: Frozen Backbone",
             "type": "debugpy",
             "request": "launch",
             "program": "${workspaceFolder}/tools/train.py",
-            "args": ["${workspaceFolder}/configs/frozen_vfms/dinov2-L_mask2former.py","--work-dir","./work_dirs/debug"],
+            "args": [
+                "${workspaceFolder}/configs/frozen_vfms/dinov2-L_mask2former.py",
+                "--cfg-options",
+                "model.decode_head.pixel_decoder.type='EnhancePixelDecoder'",
+                "--work-dir",
+                "./work_dirs/debug",
+            ],
+            "console": "integratedTerminal",
+            "justMyCode": false
+        },
+        {
+            "name": "Debug: Frozen Backbone Query Init",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/tools/train.py",
+            "args": [
+                "${workspaceFolder}/configs/frozen_vfms/dinov2-L_mask2former.py",
+                "--cfg-options",
+                "model.decode_head.type='DINOMask2FormerHead'",
+                "--work-dir",
+                "./work_dirs/debug"
+            ],
             "console": "integratedTerminal",
             "justMyCode": false
         }

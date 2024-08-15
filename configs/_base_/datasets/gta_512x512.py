@@ -1,4 +1,4 @@
-gta_type = "CityscapesDataset"
+gta_type = "RCSDataset"
 gta_root = "data/gta/"
 gta_root = "data/gta/"
 gta_crop_size = (512, 512)
@@ -29,6 +29,7 @@ train_gta = dict(
     img_suffix=".png",
     seg_map_suffix="_labelTrainIds.png",
     pipeline=gta_train_pipeline,
+    rare_class_sampling=dict(min_pixels=3000, class_temp=0.01, min_crop_ratio=0.5)
 )
 val_gta = dict(
     type=gta_type,

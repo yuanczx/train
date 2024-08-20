@@ -2,6 +2,7 @@ work_dirs/
 __pycache__/
 **.pyc
 **.pth
+**.pt
 data/
 data
 env.sh

@@ -40,8 +40,7 @@ model = dict(
         norm_layer=backbone_norm_cfg,
     ),
     decode_head=dict(
-        type="ReinMask2FormerHead",
-        replace_query_feat=True,
+        type="Mask2FormerHead",
         in_channels=[1024, 1024, 1024, 1024],
         strides=[4, 8, 16, 32],
         feat_channels=256,

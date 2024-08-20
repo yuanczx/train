@@ -10,7 +10,7 @@ train_pipeline = [
     dict(type="LoadAnnotations"),
     dict(
         type="RandomChoiceResize",
-        scales=[int(512 * x * 0.1) for x in range(5, 21)],
+        scales=[256,512,1024,300,400,500,600,700,800,900,1000],
         resize_type="ResizeShortestEdge",
         max_size=2048,
     ),

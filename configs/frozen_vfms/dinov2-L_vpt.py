@@ -2,9 +2,9 @@
 _base_ = [
     "../_base_/datasets/dg_gta_512x512.py",
     "../_base_/default_runtime.py",
-    "../_base_/models/dinov2_mask2former.py",
+    "../_base_/models/vpt_dinov2_mask2former.py",
 ]
-model = dict(type="FrozenBackboneEncoderDecoder")
+# model = dict(type="FrozenBackboneEncoderDecoder")
 train_pipeline = [
     dict(type="LoadImageFromFile"),
     dict(type="LoadAnnotations"),
@@ -14,7 +14,7 @@ train_pipeline = [
         resize_type="ResizeShortestEdge",
         max_size=2048,
     ),
-    dict(type="RandomCrop", crop_size={{_base_.crop_size}}, cat_max_ratio=0.75), # type: ignore
+    dict(type="RandomCrop", crop_size={{_base_.crop_size}}, cat_max_ratio=0.75),
     dict(type="RandomFlip", prob=0.5),
     dict(type="PhotoMetricDistortion"),
     dict(type="PackSegInputs"),
@@ -27,7 +27,7 @@ embed_multi = dict(lr_mult=1.0, decay_mult=0.0)
 optim_wrapper = dict(
     constructor="PEFTOptimWrapperConstructor",
     optimizer=dict(
-        type="AdamW", lr=0.0001, weight_decay=0.05, eps=1e-8, betas=(0.9, 0.999)
+        type="AdamW", lr=0.0001, weight_decay=0.01, eps=1e-8, betas=(0.9, 0.999)
     ),
     paramwise_cfg=dict(
         custom_keys={
@@ -57,3 +57,4 @@ default_hooks = dict(
     sampler_seed=dict(type="DistSamplerSeedHook"),
     visualization=dict(type="SegVisualizationHook"),
 )
+work_dir = './work_dirs/vpt'

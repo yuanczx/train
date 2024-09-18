@@ -5,6 +5,7 @@ _base_ = [
     "../_base_/default_runtime.py"
 ]
 
+model = dict(type="FrozenBackboneEncoderDecoder")
 embed_multi = dict(lr_mult=1.0, decay_mult=0.0)
 optim_wrapper = dict(
     constructor="PEFTOptimWrapperConstructor",
@@ -26,4 +27,4 @@ param_scheduler = [
     dict(type="PolyLR", eta_min=0, power=0.9, begin=0, end=40000, by_epoch=False)
 ]
 
-work_dir = './work_dirs/vpt_gta2others'
+work_dir = './work_dirs/vpt'

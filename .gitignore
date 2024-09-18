@@ -3,6 +3,9 @@ __pycache__/
 **.pyc
 **.pth
 **.pt
+**.pth
+checkpoints/
 data/
 data
-env.sh
+**.json
+.vscode/

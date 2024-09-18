@@ -1,1 +1,1 @@
-from .rare_class_sample import RCSDataset
+from .rcs import RCSDataset

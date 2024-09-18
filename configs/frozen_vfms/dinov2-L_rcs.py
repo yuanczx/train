@@ -5,6 +5,6 @@ _base_ = [
 train_dataloader=dict(
     dataset=dict(
         type="RCSDataset",
-        rare_class_sampling=dict(min_pixels=3000, class_temp=0.01, min_crop_ratio=0.5)
+        rare_class_sampling=dict(min_pixels=3000, class_temp=0.1, min_crop_ratio=0.5)
         )
     )

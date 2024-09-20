@@ -135,7 +135,7 @@ class RCSDataset(CityscapesDataset):
         if self.rcs_min_crop_ratio > 0:
             for j in range(10):
                 n_class = torch.sum(s1['data_samples'].gt_sem_seg.data == c)
-                mmengine.print_log(f'{j}: {n_class}',mmengine.MMLogger.get_current_instance())
+                # mmengine.print_log(f'{j}: {n_class}',mmengine.MMLogger.get_current_instance())
                 if n_class > self.rcs_min_pixels * self.rcs_min_crop_ratio:
                     break
                 # Sample a new random crop from source image i1.

@@ -1,1 +1,0 @@
-python tools/train.py configs/frozen_vfms/dinov2-L_mask2former.py --cfg-options moedl.decode_head.type="DINOMask2FormerHead" --work-dir ./work_dirs/debug

@@ -64,6 +64,7 @@ class VPTDinoVisionTransformer(DinoVisionTransformer):
         block_chunks=1,
         out_indices=[7, 11, 15, 23],
         upscale_feats=False,
+        shallow=False,
         init_cfg=None,
     ):
         super().__init__(
@@ -89,7 +90,11 @@ class VPTDinoVisionTransformer(DinoVisionTransformer):
             init_cfg,
         )
         # Initialize VPT
-        self.vpt = SimpleVPT(embed_dim=embed_dim, depth=depth, num_tokens=150)
+        self.shallow = shallow
+        if shallow:
+            self.vpt = SimpleVPT(embed_dim=embed_dim, depth=1, num_tokens=150)
+        else:
+            self.vpt = SimpleVPT(embed_dim=embed_dim, depth=depth, num_tokens=150)
 
     def forward_features(self, x, masks=None):
         B, _, h, w = x.shape
@@ -101,7 +106,13 @@ class VPTDinoVisionTransformer(DinoVisionTransformer):
         x = self.prepare_tokens_with_masks(x, masks)
         outs = []
         for idx, blk in enumerate(self.blocks):
-            x = self.vpt.forward(idx, blk, x, batch_first=True, cls_token=True)
+            if self.shallow:
+                if idx==0:
+                    x = self.vpt.forward(idx, blk, x, batch_first=True, cls_token=True)
+                else:
+                    x = blk(x)
+            else:
+                x = self.vpt.forward(idx, blk, x, batch_first=True, cls_token=True)
             if idx in self.out_indices:
                 outs.append(x[:, 1:, :].permute(0, 2, 1).reshape(B, -1, H, W).contiguous())
         return outs

@@ -1,1 +1,1 @@
-python tools/train.py configs/frozen_vfms/fixed-assigner_dinov2-L_mask2former.py --work-dir work_dirs/FixedAssigner
+python tools/train.py configs/frozen_vfms/dinov2-L_mask2former_fixed_assigner.py--work-dir work_dirs/FixedAssigner

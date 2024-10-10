@@ -1,1 +1,2 @@
-from .per_image_iou import Per_Image_IoU
+from .per_image_iou import PerImageIoU
+from .dg_metrics import DGIoUMetric

@@ -3,11 +3,11 @@ from typing import Dict, Sequence
 import numpy as np
 from PIL import Image
 from mmseg.registry import METRICS
-from rein.dg_metrics import DGIoUMetric
+from rein.metrics.dg_metrics import DGIoUMetric
 
 
 @METRICS.register_module()
-class Per_Image_IoU(DGIoUMetric):
+class PerImageIoU(DGIoUMetric):
     def __init__(self,save_dir="./result",**kwargs):
         super().__init__(**kwargs)
         self.save_dir = save_dir

@@ -1,4 +1,5 @@
 import os.path as osp
+import os
 from typing import Dict, Sequence
 import numpy as np
 from PIL import Image
@@ -47,6 +48,8 @@ class PerImageIoU(DGIoUMetric):
     def compute_metrics(self, results: list) -> Dict[str, float]:
         assert self.dataset_meta is not None
         class_names = self.dataset_meta['classes']
+        if not osp.exists(self.save_dir):
+            os.makedirs(self.save_dir, exist_ok=True)
         with open(osp.join(self.save_dir,'iou_result.csv'),'a+') as f:
             for idx, result in enumerate(results):
                 for i in range(len(class_names)):

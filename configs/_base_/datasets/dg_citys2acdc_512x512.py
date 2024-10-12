@@ -25,7 +25,7 @@ val_dataloader = dict(
             {{_base_.val_snow_acdc}},
             {{_base_.val_fog_acdc}},
             {{_base_.val_rain_acdc}},
-            {{_base_.val_cityscapes}},
+            # {{_base_.val_cityscapes}},
         ],
     ),
 )
@@ -39,7 +39,7 @@ test_dataloader = dict(
 val_evaluator = dict(
     type="DGIoUMetric",
     iou_metrics=["mIoU"],
-    dataset_keys=["night/", "citys/", "fog/", "snow/", "rain/"],
-    mean_used_keys=["night/", "fog/", "snow/", "rain/"],
+    dataset_keys=["night/", "snow/", "fog/", "rain/"],
+    mean_used_keys=["night/", "snow/", "fog/", "rain/"],
 )
 test_evaluator = dict(type="IoUMetric", iou_metrics=["mIoU"])

@@ -2,23 +2,9 @@
 _base_ = [
     "../_base_/datasets/dg_citys2acdc_1024x1024.py",
     "../_base_/default_runtime.py",
-    "../_base_/models/dinov2_mask2former.py",
+    "../_base_/models/dinov2_mask2former_1024x1024.py",
 ]
-model = dict(type="FrozenBackboneEncoderDecoder",backbone=dict(init_cfg=dict(checkpoint="checkpoints/dinov2_converted_1024x1024.pth")))
-train_pipeline = [
-    dict(type="LoadImageFromFile"),
-    dict(type="LoadAnnotations"),
-    dict(
-        type="RandomChoiceResize",
-        scales=[512,1024,300,400,500,600,700,800,900,1000],
-        resize_type="ResizeShortestEdge",
-        max_size=2048,
-    ),
-    dict(type="RandomCrop", crop_size={{_base_.crop_size}}, cat_max_ratio=0.75), # type: ignore
-    dict(type="RandomFlip", prob=0.5),
-    dict(type="PhotoMetricDistortion"),
-    dict(type="PackSegInputs"),
-]
+model = dict(type="FrozenBackboneEncoderDecoder")
 
 # AdamW optimizer, no weight decay for position embedding & layer norm
 # in backbone
@@ -56,3 +42,4 @@ default_hooks = dict(
     sampler_seed=dict(type="DistSamplerSeedHook"),
     visualization=dict(type="SegVisualizationHook"),
 )
+work_dir="./work_dirs/frozen_dinov2-citys2acdc_1024x1024"

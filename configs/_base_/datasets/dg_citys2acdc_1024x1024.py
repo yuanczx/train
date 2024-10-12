@@ -22,10 +22,9 @@ val_dataloader = dict(
         type="ConcatDataset",
         datasets=[
             {{_base_.val_night_acdc}},
-            {{_base_.val_snow_acdc}},
             {{_base_.val_fog_acdc}},
+            {{_base_.val_snow_acdc}},
             {{_base_.val_rain_acdc}},
-            {{_base_.val_cityscapes}},
         ],
     ),
 )
@@ -38,8 +37,8 @@ test_dataloader = dict(
         type="ConcatDataset",
         datasets=[
             {{_base_.test_night_acdc}},
-            {{_base_.test_snow_acdc}},
             {{_base_.test_fog_acdc}},
+            {{_base_.test_snow_acdc}},
             {{_base_.test_rain_acdc}},
         ],
     ),
@@ -47,7 +46,7 @@ test_dataloader = dict(
 val_evaluator = dict(
     type="DGIoUMetric",
     iou_metrics=["mIoU"],
-    dataset_keys=["night/", "cityscapes/", "fog/", "snow/", "rain/"],
+    dataset_keys=["night/", "fog/", "snow/", "rain/"],
     mean_used_keys=["night/", "fog/", "snow/", "rain/"],
 )
 test_evaluator = dict(

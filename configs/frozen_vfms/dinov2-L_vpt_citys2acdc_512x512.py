@@ -2,9 +2,9 @@
 _base_ = [
     "../_base_/datasets/dg_citys2acdc_512x512.py",
     "../_base_/default_runtime.py",
-    "../_base_/models/dinov2_mask2former.py",
+    "../_base_/models/vpt_dinov2_mask2former.py",
 ]
-model = dict(type="FrozenBackboneEncoderDecoder")
+model = dict(backbone=dict(shallow=False))
 train_pipeline = [
     dict(type="LoadImageFromFile"),
     dict(type="LoadAnnotations"),
@@ -20,7 +20,7 @@ train_pipeline = [
     dict(type="PackSegInputs"),
 ]
 
-train_dataloader=dict(batch_size=8,dataset=dict(pipeline=train_pipeline))
+train_dataloader = dict(batch_size=8, dataset=dict(pipeline=train_pipeline))
 # AdamW optimizer, no weight decay for position embedding & layer norm
 # in backbone
 embed_multi = dict(lr_mult=1.0, decay_mult=0.0)

@@ -6,6 +6,23 @@ _base_ = [
 ]
 model = dict(type="FrozenBackboneEncoderDecoder")
 
+train_pipeline = [
+    dict(type="LoadImageFromFile"),
+    dict(type="LoadAnnotations"),
+    dict(
+        type="RandomChoiceResize",
+        scales=[int(1024 * x * 0.1) for x in range(5, 21)],
+        resize_type="ResizeShortestEdge",
+        max_size=4096,
+    ),
+    dict(type="RandomCrop", crop_size={{_base_.crop_size}}, cat_max_ratio=0.75), # type: ignore
+    dict(type="RandomFlip", prob=0.5),
+    dict(type="PhotoMetricDistortion"),
+    dict(type="PackSegInputs"),
+]
+
+train_dataloader = dict(batch_size=8, num_workers=1, dataset=dict(pipeline=train_pipeline))
+
 # AdamW optimizer, no weight decay for position embedding & layer norm
 # in backbone
 embed_multi = dict(lr_mult=1.0, decay_mult=0.0)

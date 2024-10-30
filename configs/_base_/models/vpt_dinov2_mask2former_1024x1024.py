@@ -169,8 +169,8 @@ model = dict(
             return_intermediate=True),
         type='Mask2FormerHead'),
     test_cfg=dict(crop_size=crop_size, mode='slide', stride=(
-        341,
-        341,
+        683,
+        683,
     )),
     train_cfg=dict(),
     type='EncoderDecoder')

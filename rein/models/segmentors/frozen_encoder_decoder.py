@@ -18,6 +18,12 @@ def detach_everything(everything):
 
 @MODELS.register_module()
 class FrozenBackboneEncoderDecoder(EncoderDecoder):
+    def __init__(self,decode_head_grad = True,**kwargs):
+        super().__init__(**kwargs)
+        if not decode_head_grad:
+            for param in self.decode_head.parameters():
+                param.requires_grad = False
+
     def train(self, mode=True):
         super().train(mode)
         self.backbone.eval()

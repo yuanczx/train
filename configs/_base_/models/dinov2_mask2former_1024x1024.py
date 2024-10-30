@@ -154,6 +154,6 @@ model = dict(
     test_cfg=dict(
         mode="slide",
         crop_size=crop_size,
-        stride=(341, 341),
+        stride=(683, 683),
     ),
 )

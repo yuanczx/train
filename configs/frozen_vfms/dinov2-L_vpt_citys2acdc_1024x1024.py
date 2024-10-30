@@ -2,7 +2,7 @@
 _base_ = [
     "../_base_/datasets/dg_citys2acdc_1024x1024.py",
     "../_base_/default_runtime.py",
-    "../_base_/models/vpt_dinov2_mask2former.py",
+    "../_base_/models/vpt_dinov2_mask2former_1024x1024.py",
 ]
 model = dict(backbone=dict(shallow=False))
 train_pipeline = [
